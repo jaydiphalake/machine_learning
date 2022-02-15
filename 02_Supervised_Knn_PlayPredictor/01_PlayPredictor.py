@@ -10,7 +10,7 @@ Case Study : Play Predictor
 #############################################################
 
 # Author        : Jayadip Halake
-# Date          : 5-Feb-2022
+# Date          : 5-Feb-2022 
 
 # ML Type       : Supervised Learning
 # Classifier    : Knn (KNeighborsClassifier)
