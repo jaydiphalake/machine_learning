@@ -26,6 +26,25 @@ def data_process():
     play_fillna()
    
     drop_column_row(df)
+    
+    #--------------------- Titanic age update -------
+    print("\n\n --- Titanic Age processing ---")
+    titanic_data = pd.read_csv("titanic.csv")
+    #print(titanic_data.isna().sum())
+  
+    print("Before processing : Age Null :", titanic_data["age"].isna().sum())
+    age_slice = titanic_data["age"].copy()
+    min_age = age_slice.dropna().min()
+    max_age = age_slice.dropna().max()
+    age_null_cnt=age_slice.isna().sum()
+    # generate range age values
+    random_age = np.random.randint(low=min_age, high=max_age, size=(age_null_cnt))
+    
+    #
+    age_slice[np.isnan(age_slice)] = random_age
+    titanic_data["age"] = age_slice
+    print("After processing : Age Null :", titanic_data["age"].isna().sum())
+    
    
 def drop_column_row(df):
     print("\n\n ---------- drop_column_row ----------------- ")
