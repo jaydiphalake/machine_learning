@@ -87,19 +87,6 @@ def data_cleaning(titanic_data):
     titanic_data["Embarked"] = titanic_data["Embarked"].fillna("S")
     #print(titanic_data.isna().sum())
   
-    # update age
-    #print("Null ", titanic_data["Age"].isna().sum())
-    age_slice = titanic_data["Age"].copy()
-    min_age = age_slice.dropna().min()
-    max_age = age_slice.dropna().max()
-    age_null_cnt=age_slice.isna().sum()
-    # generate range age values
-    random_age = np.random.randint(low=min_age, high=max_age, size=(age_null_cnt))
-    
-    age_slice[np.isnan(age_slice)] = random_age
-    titanic_data["Age"] = age_slice
-    #print("Null ", titanic_data["Age"].isna().sum())
-  
     titanic_data.drop(titanic_data[["Cabin"]], axis=1, inplace= True)
   
     df_sex =pd.get_dummies(titanic_data["Sex"]  , prefix="Sex"  ) 
@@ -117,9 +104,28 @@ def data_cleaning(titanic_data):
     # drop irrelevent columns
     titanic_data.drop(["Pclass","Embarked", "Sex", "SibSp" , "Parch"], axis=1, inplace=True)
     #print(titanic_data.head(n=5))
+  
+    # update age
+    #print("Null ", titanic_data["Age"].isna().sum())
     
-    #print("----------")
-    #print(titanic_data.isna().sum())
+    #Option 1 : Fill 0 to all null values    
+    #titanic_data["Age"] = titanic_data["Age"].fillna(0)
+    
+    #Options 2 : fill random values    
+    age_slice = titanic_data["Age"].copy()
+    min_age = age_slice.dropna().min()
+    max_age = age_slice.dropna().max()
+    age_null_cnt=age_slice.isna().sum()
+    # generate range age values
+    random_age = np.random.randint(low=min_age, high=max_age, size=(age_null_cnt))
+    
+    age_slice[np.isnan(age_slice)] = random_age
+    titanic_data["Age"] = age_slice
+    #print("Null ", titanic_data["Age"].isna().sum())
+    
+  
+    print("-----Null Value afte data cleaning-----")
+    print(titanic_data.isna().sum())
     
     return titanic_data
     
